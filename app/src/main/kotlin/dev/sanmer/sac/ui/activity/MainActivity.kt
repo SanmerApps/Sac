@@ -16,6 +16,8 @@ import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
 import androidx.window.layout.WindowMetricsCalculator
 import dagger.hilt.android.AndroidEntryPoint
+import dev.sanmer.sac.app.utils.NotificationUtils
+import dev.sanmer.sac.app.utils.OsUtils
 import dev.sanmer.sac.ui.theme.AppTheme
 import timber.log.Timber
 
@@ -30,6 +32,10 @@ class MainActivity : ComponentActivity() {
         val windowBounds = metrics.bounds.toComposeRect()
 
         setContent {
+            if (OsUtils.atLeastT) {
+                NotificationUtils.PermissionState()
+            }
+
             CompositionLocalProvider(
                 LocalWindowBounds provides windowBounds
             ) {
