@@ -12,7 +12,6 @@
         android:theme="@style/AppTheme"
         android:localeConfig="@xml/locales_config"
         android:enableOnBackInvokedCallback="false"
-        android:extractNativeLibs="false"
         tools:targetApi="34">
 
         <activity
