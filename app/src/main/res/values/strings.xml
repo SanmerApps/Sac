@@ -1,0 +1,9 @@
+<resources>
+    <string name="home_file">File</string>
+    <string name="home_file_placeholder">SAC File…</string>
+    <string name="home_endian_little">Little Endian</string>
+    <string name="home_endian_big">Big Endian</string>
+    <string name="home_header">Header</string>
+    <string name="home_waveform">Waveform</string>
+    <string name="home_error">Error</string>
+</resources>

@@ -1,0 +1,9 @@
+<resources>
+    <string name="home_file">文件</string>
+    <string name="home_file_placeholder">SAC 文件…</string>
+    <string name="home_endian_little">小端序</string>
+    <string name="home_endian_big">大端序</string>
+    <string name="home_header">头部</string>
+    <string name="home_waveform">波形</string>
+    <string name="home_error">错误</string>
+</resources>
