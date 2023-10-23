@@ -16,11 +16,7 @@ import androidx.compose.ui.unit.dp
 import dev.sanmer.sac.R
 import dev.sanmer.sac.ui.component.OverviewCard
 import org.jetbrains.letsPlot.Figure
-import org.jetbrains.letsPlot.geom.geomLine
-import org.jetbrains.letsPlot.letsPlot
 import org.jetbrains.letsPlot.skia.compose.PlotPanel
-import org.jetbrains.letsPlot.themes.elementBlank
-import org.jetbrains.letsPlot.themes.theme
 import timber.log.Timber
 
 @Composable
