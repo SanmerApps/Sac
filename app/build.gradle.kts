@@ -10,7 +10,8 @@ plugins {
 }
 
 val baseVersionName = "0.0.1"
-val baseVersionCode = 1
+val isDevVersion get() = exec("git tag --contains HEAD").isEmpty()
+val verNameSuffix get() = if (isDevVersion) ".dev" else ""
 
 //noinspection ChromeOsAbiSupport
 android {
@@ -18,8 +19,8 @@ android {
 
     defaultConfig {
         applicationId = namespace
-        versionName = baseVersionName
-        versionCode = baseVersionCode
+        versionName = "${baseVersionName}${verNameSuffix}.${commitId}"
+        versionCode = commitCount
 
         resourceConfigurations += arrayOf("en", "zh-rCN")
 
@@ -42,10 +43,6 @@ android {
     }
 
     buildTypes {
-        debug {
-            versionNameSuffix = ".debug"
-        }
-
         release {
             isMinifyEnabled = true
             isShrinkResources = true
@@ -57,6 +54,7 @@ android {
 
         all {
             signingConfig = releaseSigning
+            buildConfigField("Boolean", "IS_DEV_VERSION", isDevVersion.toString())
         }
     }
 
