@@ -86,12 +86,5 @@ class SacHeader(
                 return it.h
             }
         }
-
-        fun update(file: File, endian: Endian, block: SacHeader.() -> Unit) {
-            Sac.readHeader(file, endian).use {
-                it.h = it.h.apply(block)
-                it.writeHeader()
-            }
-        }
     }
 }

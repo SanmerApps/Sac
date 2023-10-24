@@ -18,10 +18,10 @@ class Sac(
         get() = getY(ptr)
         set(value) = setY(ptr, value)
 
-    fun writeHeader() = wh(ptr)
+    fun writeHeader() = writeHeader(ptr)
     fun setEndian(endian: Endian) = setEndian(ptr, endian.ordinal)
-    fun write() = w(ptr)
-    fun writeTo(file: File) = wt(ptr, file.absolutePath)
+    fun write() = write(ptr)
+    fun writeTo(file: File) = writeTo(ptr, file.absolutePath)
     override fun close() = drop(ptr)
 
     companion object {
@@ -30,19 +30,22 @@ class Sac(
         }
 
         @JvmStatic
-        private external fun rh(path: String, endian: Int): Long
+        private external fun readHeader(path: String, endian: Int): Long
 
         @JvmStatic
-        private external fun r(path: String, endian: Int): Long
+        private external fun read(path: String, endian: Int): Long
 
         @JvmStatic
-        private external fun wh(ptr: Long)
+        private external fun empty(path: String, endian: Int): Long
 
         @JvmStatic
-        private external fun w(ptr: Long)
+        private external fun writeHeader(ptr: Long)
 
         @JvmStatic
-        private external fun wt(ptr: Long, path: String)
+        private external fun write(ptr: Long)
+
+        @JvmStatic
+        private external fun writeTo(ptr: Long, path: String)
 
         @JvmStatic
         private external fun getHeader(ptr: Long): SacHeader
@@ -69,7 +72,7 @@ class Sac(
         private external fun drop(ptr: Long)
 
         fun readHeader(file: File, endian: Endian): Sac {
-            val ptr = rh(
+            val ptr = readHeader(
                 path = file.absolutePath,
                 endian = endian.ordinal
             )
@@ -78,7 +81,16 @@ class Sac(
         }
 
         fun read(file: File, endian: Endian): Sac {
-            val ptr = r(
+            val ptr = read(
+                path = file.absolutePath,
+                endian = endian.ordinal
+            )
+
+            return Sac(ptr)
+        }
+
+        fun empty(file: File, endian: Endian): Sac {
+            val ptr = empty(
                 path = file.absolutePath,
                 endian = endian.ordinal
             )
