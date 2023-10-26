@@ -12,6 +12,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import dev.sanmer.sac.app.utils.MediaStoreUtils
 import dev.sanmer.sac.io.Endian
 import dev.sanmer.sac.io.Sac
+import dev.sanmer.sac.io.SacFileType
 import dev.sanmer.sac.io.SacHeader
 import dev.sanmer.sac.utils.extensions.tmpDir
 import kotlinx.coroutines.Dispatchers
@@ -38,13 +39,11 @@ class HomeViewModel @Inject constructor(
     private var headerOrNull: SacHeader? by mutableStateOf(null)
     val header get() = checkNotNull(headerOrNull)
 
+    private var x: FloatArray by mutableStateOf(floatArrayOf())
+    private var y: FloatArray by mutableStateOf(floatArrayOf())
+
     private var figureOrNull: Figure? by mutableStateOf(null)
     val figure get() = checkNotNull(figureOrNull)
-
-    var x: FloatArray by mutableStateOf(floatArrayOf())
-        private set
-    var y: FloatArray by mutableStateOf(floatArrayOf())
-        private set
 
     var isFailed by mutableStateOf(false)
         private set
@@ -80,11 +79,12 @@ class HomeViewModel @Inject constructor(
         clear()
 
         runCatching {
-            Sac.read(tmp, endian).use { sac ->
+            Sac.read(file = tmp, endian = endian).use { sac ->
                 headerOrNull = sac.h
                 y = sac.y
 
-                x = if (header.leven) {
+                val fileType = SacFileType.valueBy(header.iftype)
+                x = if (fileType == SacFileType.Time && header.leven) {
                     FloatArray(y.size) { it.toFloat() }
                 } else {
                     sac.x
