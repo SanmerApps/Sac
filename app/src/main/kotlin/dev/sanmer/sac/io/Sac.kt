@@ -6,17 +6,17 @@ import java.io.File
 class Sac(
     private val ptr: Long
 ) : Closeable {
-    var h: SacHeader
+    var header: SacHeader
         get() = getHeader(ptr)
         set(value) = setHeader(ptr, value)
 
-    var x: FloatArray
-        get() = getX(ptr)
-        set(value) = setX(ptr, value)
+    var first: FloatArray
+        get() = getFirst(ptr)
+        set(value) = setFirst(ptr, value)
 
-    var y: FloatArray
-        get() = getY(ptr)
-        set(value) = setY(ptr, value)
+    var second: FloatArray
+        get() = getSecond(ptr)
+        set(value) = setSecond(ptr, value)
 
     fun writeHeader() = writeHeader(ptr)
     fun setEndian(endian: Endian) = setEndian(ptr, endian.ordinal)
@@ -54,16 +54,16 @@ class Sac(
         private external fun setHeader(ptr: Long, h: SacHeader)
 
         @JvmStatic
-        private external fun getX(ptr: Long): FloatArray
+        private external fun getFirst(ptr: Long): FloatArray
 
         @JvmStatic
-        private external fun setX(ptr: Long, x: FloatArray)
+        private external fun setFirst(ptr: Long, x: FloatArray)
 
         @JvmStatic
-        private external fun getY(ptr: Long): FloatArray
+        private external fun getSecond(ptr: Long): FloatArray
 
         @JvmStatic
-        private external fun setY(ptr: Long, y: FloatArray)
+        private external fun setSecond(ptr: Long, y: FloatArray)
 
         @JvmStatic
         private external fun setEndian(ptr: Long, endian: Int)

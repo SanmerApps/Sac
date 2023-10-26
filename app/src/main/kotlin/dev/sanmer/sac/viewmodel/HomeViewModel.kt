@@ -80,14 +80,16 @@ class HomeViewModel @Inject constructor(
 
         runCatching {
             Sac.read(file = tmp, endian = endian).use { sac ->
-                headerOrNull = sac.h
-                y = sac.y
+                headerOrNull = sac.header
+                y = sac.first
 
                 val fileType = SacFileType.valueBy(header.iftype)
-                x = if (fileType == SacFileType.Time && header.leven) {
-                    FloatArray(y.size) { it.toFloat() }
+                if (fileType == SacFileType.Time && header.leven) {
+                    x = FloatArray(header.npts) { it.toFloat() }
+                    y = sac.first
                 } else {
-                    sac.x
+                    x = sac.first
+                    y = sac.second
                 }
             }
         }.onFailure {

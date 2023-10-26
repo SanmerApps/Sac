@@ -83,7 +83,7 @@ class SacHeader(
     companion object {
         fun read(file: File, endian: Endian): SacHeader {
             Sac.readHeader(file, endian).use {
-                return it.h
+                return it.header
             }
         }
     }
