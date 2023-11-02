@@ -59,6 +59,7 @@ protobuf-kotlin-lite = { group = "com.google.protobuf", name = "protobuf-kotlin-
 protobuf-protoc = { group = "com.google.protobuf", name = "protoc", version.ref = "protobuf" }
 skiko-android = { group = "org.jetbrains.skiko", name = "skiko-android", version.ref = "skikoAndroid" }
 skiko-android-arm64 = { group = "org.jetbrains.skiko", name = "skiko-android-runtime-arm64", version.ref = "skikoAndroid" }
+skiko-android-x64 = { group = "org.jetbrains.skiko", name = "skiko-android-runtime-x64", version.ref = "skikoAndroid" }
 lets-plot = { group = "org.jetbrains.lets-plot", name = "lets-plot-common", version.ref = "letsPlot" }
 lets-plot-kotlin = { group = "org.jetbrains.lets-plot", name = "lets-plot-kotlin-kernel", version.ref = "letsPlotKotlin" }
 lets-plot-compose = { group = "org.jetbrains.lets-plot", name = "lets-plot-compose", version.ref = "letsPlotCompose" }

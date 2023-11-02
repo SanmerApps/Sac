@@ -13,7 +13,6 @@ val baseVersionName = "0.0.1"
 val isDevVersion get() = exec("git tag --contains HEAD").isEmpty()
 val verNameSuffix get() = if (isDevVersion) ".dev" else ""
 
-//noinspection ChromeOsAbiSupport
 android {
     namespace = "dev.sanmer.sac"
 
@@ -25,7 +24,7 @@ android {
         resourceConfigurations += arrayOf("en", "zh-rCN")
 
         ndk {
-            abiFilters += arrayOf("arm64-v8a")
+            abiFilters += arrayOf("arm64-v8a", "x86_64")
         }
     }
 
@@ -88,10 +87,10 @@ android {
 
     splits {
         abi {
-            isEnable = true
-            isUniversalApk = false
-            include("arm64-v8a")
             reset()
+            include("arm64-v8a", "x86_64")
+            isEnable = true
+            isUniversalApk = true
         }
     }
 }
