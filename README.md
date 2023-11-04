@@ -1,4 +1,5 @@
 # Sac
+[![translated](https://weblate.sanmer.dev/widget/sac/svg-badge.svg)](https://weblate.sanmer.dev/engage/sac/)
 Sac is an Android app to view SAC data.
 
 ## Core
