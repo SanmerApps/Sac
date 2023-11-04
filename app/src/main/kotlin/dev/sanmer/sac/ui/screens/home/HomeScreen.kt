@@ -13,6 +13,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -29,6 +30,7 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import dev.sanmer.sac.R
 import dev.sanmer.sac.ui.activity.MainActivity.Companion.LocalWindowBounds
 import dev.sanmer.sac.ui.activity.MainActivity.Companion.hideSystemBars
@@ -36,6 +38,8 @@ import dev.sanmer.sac.ui.activity.MainActivity.Companion.setOrientationSensorLan
 import dev.sanmer.sac.ui.activity.MainActivity.Companion.setOrientationUnspecified
 import dev.sanmer.sac.ui.activity.MainActivity.Companion.showSystemBars
 import dev.sanmer.sac.ui.component.Logo
+import dev.sanmer.sac.ui.navigation.navigateToSettings
+import dev.sanmer.sac.ui.providable.LocalUserPreferences
 import dev.sanmer.sac.ui.screens.home.items.ErrorItem
 import dev.sanmer.sac.ui.screens.home.items.FileItem
 import dev.sanmer.sac.ui.screens.home.items.HeaderItem
@@ -46,6 +50,7 @@ import timber.log.Timber
 
 @Composable
 fun HomeScreen(
+    navController: NavController,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
     val context = LocalContext.current
@@ -73,7 +78,7 @@ fun HomeScreen(
     ) { isFullScreen ->
         when {
             isFullScreen -> FullContent(viewModel)
-            else -> NormalContent(viewModel)
+            else -> NormalContent(navController, viewModel)
         }
     }
 }
@@ -111,14 +116,17 @@ private fun FullContent(
 
 @Composable
 private fun NormalContent(
+    navController: NavController,
     viewModel: HomeViewModel
 ) {
+    val userPreferences = LocalUserPreferences.current
     val scrollBehavior = TopAppBarDefaults.pinnedScrollBehavior()
 
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
             TopBar(
+                navController = navController,
                 scrollBehavior = scrollBehavior
             )
         }
@@ -133,8 +141,8 @@ private fun NormalContent(
             FileItem(
                 filename = viewModel.filename,
                 loadSacFile = viewModel::loadSacFile,
-                endian = viewModel.endian,
-                onEndianChange = { viewModel.endian = it }
+                endian = userPreferences.endian,
+                onEndianChange = viewModel::setEndian
             )
 
             if (viewModel.isHeaderReady) {
@@ -157,6 +165,7 @@ private fun NormalContent(
 
 @Composable
 private fun TopBar(
+    navController: NavController,
     scrollBehavior: TopAppBarScrollBehavior
 ) = TopAppBar(
     title = { Text(text = stringResource(id = R.string.app_name)) },
@@ -170,6 +179,16 @@ private fun TopBar(
                 contentColor = MaterialTheme.colorScheme.onPrimary,
                 containerColor = MaterialTheme.colorScheme.primary,
                 fraction = 0.65f
+            )
+        }
+    },
+    actions = {
+        IconButton(
+            onClick = { navController.navigateToSettings() }
+        ) {
+            Icon(
+                painter = painterResource(id = R.drawable.settings),
+                contentDescription = null
             )
         }
     },

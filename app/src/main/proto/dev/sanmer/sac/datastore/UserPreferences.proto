@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+import "dev/sanmer/sac/datastore/DarkMode.proto";
+
+option java_package = "dev.sanmer.sac.datastore";
+option java_multiple_files = true;
+
+message UserPreferences {
+  DarkMode darkMode = 1;
+  int32 themeColor = 2;
+  string endian = 3;
+}

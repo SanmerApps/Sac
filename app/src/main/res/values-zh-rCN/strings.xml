@@ -1,4 +1,9 @@
 <resources>
+    <!-- Page -->
+    <string name="page_settings">设置</string>
+    <string name="page_about">关于</string>
+
+    <!-- Home -->
     <string name="home_file">文件</string>
     <string name="home_file_placeholder">SAC 文件…</string>
     <string name="home_endian_little">小端序</string>
@@ -6,4 +11,19 @@
     <string name="home_header">头部</string>
     <string name="home_waveform">波形</string>
     <string name="home_error">错误</string>
+
+    <!-- Settings-->
+    <string name="settings_app_theme">主题</string>
+    <string name="settings_app_theme_desc">更改主题配色和深色模式</string>
+    <string name="app_theme_palette">主题调色板</string>
+    <string name="app_theme_dark_theme">深色主题</string>
+    <string name="app_theme_dark_theme_auto">自动</string>
+    <string name="app_theme_dark_theme_light">浅色</string>
+    <string name="app_theme_dark_theme_dark">深色</string>
+
+    <!-- About -->
+    <string name="about_app_version">版本 %1$s (%2$s)</string>
+    <string name="about_desc1">查看 SAC 文件的地震波数据的头部信息和波形图。</string>
+    <string name="about_desc2">由 %s 用 ❤️ 制作</string>
+
 </resources>

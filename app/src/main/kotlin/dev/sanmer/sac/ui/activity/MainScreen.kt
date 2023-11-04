@@ -1,9 +1,34 @@
 package dev.sanmer.sac.ui.activity
 
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import dev.sanmer.sac.ui.screens.home.HomeScreen
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.rememberNavController
+import dev.sanmer.sac.ui.navigation.MainScreen
+import dev.sanmer.sac.ui.navigation.graphs.homeScreen
+import dev.sanmer.sac.ui.navigation.graphs.settingsScreen
 
 @Composable
 fun MainScreen() {
-    HomeScreen()
+    val navController = rememberNavController()
+
+    Surface(
+        modifier = Modifier.fillMaxSize(),
+        color = MaterialTheme.colorScheme.background
+    ) {
+        NavHost(
+            navController = navController,
+            startDestination = MainScreen.Home.route
+        ) {
+            homeScreen(
+                navController = navController
+            )
+            settingsScreen(
+                navController = navController
+            )
+        }
+    }
 }

@@ -14,8 +14,10 @@ import dev.sanmer.sac.io.Endian
 import dev.sanmer.sac.io.Sac
 import dev.sanmer.sac.io.SacFileType
 import dev.sanmer.sac.io.SacHeader
+import dev.sanmer.sac.repository.UserPreferencesRepository
 import dev.sanmer.sac.utils.extensions.tmpDir
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import org.jetbrains.letsPlot.Figure
 import org.jetbrains.letsPlot.geom.geomLine
@@ -27,6 +29,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val userPreferencesRepository: UserPreferencesRepository,
     application: Application
 ) : AndroidViewModel(application) {
     private val context: Context by lazy { getApplication() }
@@ -34,7 +37,6 @@ class HomeViewModel @Inject constructor(
 
     var filename by mutableStateOf("")
         private set
-    var endian by mutableStateOf(Endian.Little)
 
     private var headerOrNull: SacHeader? by mutableStateOf(null)
     val header get() = checkNotNull(headerOrNull)
@@ -73,6 +75,9 @@ class HomeViewModel @Inject constructor(
     }
 
     fun loadSacFile(uri: Uri) = viewModelScope.launch(Dispatchers.IO) {
+        val userPreferences = userPreferencesRepository.data.first()
+        val endian = userPreferences.endian
+
         val tmp = MediaStoreUtils.copyTo(context, uri, context.tmpDir)
 
         filename = tmp.name
@@ -114,4 +119,7 @@ class HomeViewModel @Inject constructor(
             axis = elementBlank()
         )
     }
+
+    fun setEndian(value: Endian) =
+        userPreferencesRepository.setEndian(value)
 }
