@@ -114,7 +114,7 @@ private fun EndianSelect(
                 modifier = Modifier.height(FilterChipDefaults.Height),
                 selected = true,
                 onClick = { expanded = true },
-                label = { Text(text = selected.name) },
+                label = { Text(text = selected.name()) },
                 trailingIcon = {
                     Icon(
                         modifier = Modifier
@@ -166,3 +166,9 @@ private fun MenuItem(
     text = { Text(text = name) },
     onClick = onClick
 )
+
+@Composable
+private fun Endian.name() = when (this) {
+    Endian.Little -> stringResource(id = R.string.home_endian_little)
+    Endian.Big -> stringResource(id = R.string.home_endian_big)
+}
