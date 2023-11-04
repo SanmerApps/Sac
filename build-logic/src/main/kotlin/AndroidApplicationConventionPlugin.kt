@@ -22,7 +22,7 @@ class AndroidApplicationConventionPlugin : Plugin<Project> {
                 ndkVersion = "26.0.10792818"
 
                 defaultConfig {
-                    minSdk = 31
+                    minSdk = 29
                     targetSdk = compileSdk
                 }
 

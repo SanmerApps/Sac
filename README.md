@@ -8,7 +8,7 @@ Sac is an Android app to view SAC data.
 - [libsac](https://github.com/SanmerDev/libsac)
 
 ## Supported Versions
-Android 12 ~ 14
+Android 10 ~ 14
  
 ## Credits
  - [tabler/tabler-icons](https://github.com/tabler/tabler-icons.git)
