@@ -115,6 +115,8 @@ protobuf {
 }
 
 dependencies {
+    implementation(fileTree("src/main/libs") { include("*.jar") })
+
     implementation(libs.accompanist.permissions)
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.appcompat)
