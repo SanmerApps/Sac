@@ -24,7 +24,7 @@ protobuf = "3.25.0"
 protobufPlugin = "0.9.4"
 skikoAndroid = "0.7.84"
 letsPlot = "4.1.0"
-letsPlotKotlin = "4.4.3"
+letsPlotKotlin = "4.5.0"
 letsPlotCompose = "1.0.0"
 
 [libraries]
