@@ -1,9 +1,9 @@
 import com.android.build.gradle.internal.api.ApkVariantOutputImpl
 
 plugins {
-    id("sac.android.application")
-    id("sac.android.application.compose")
-    id("sac.android.hilt")
+    alias(libs.plugins.pro.application)
+    alias(libs.plugins.pro.compose)
+    alias(libs.plugins.pro.hilt)
     alias(libs.plugins.kotlin.parcelize)
     alias(libs.plugins.ksp)
     alias(libs.plugins.protobuf)

@@ -10,24 +10,24 @@ dependencies {
 
 gradlePlugin {
     plugins {
-        register("androidApplication") {
-            id = "sac.android.application"
-            implementationClass = "AndroidApplicationConventionPlugin"
+        register("proApplication") {
+            id = "pro.application"
+            implementationClass = "ApplicationConventionPlugin"
         }
 
-        register("androidApplicationCompose") {
-            id = "sac.android.application.compose"
-            implementationClass = "AndroidApplicationComposeConventionPlugin"
+        register("proCompose") {
+            id = "pro.compose"
+            implementationClass = "ComposeConventionPlugin"
         }
 
-        register("androidHilt") {
-            id = "sac.android.hilt"
-            implementationClass = "AndroidHiltConventionPlugin"
+        register("proHilt") {
+            id = "pro.hilt"
+            implementationClass = "HiltConventionPlugin"
         }
 
-        register("androidRoom") {
-            id = "sac.android.room"
-            implementationClass = "AndroidRoomConventionPlugin"
+        register("proRoom") {
+            id = "pro.room"
+            implementationClass = "RoomConventionPlugin"
         }
     }
 }
