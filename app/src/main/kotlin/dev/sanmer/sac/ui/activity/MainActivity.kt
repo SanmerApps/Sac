@@ -17,16 +17,15 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.layout.WindowMetricsCalculator
 import dagger.hilt.android.AndroidEntryPoint
 import dev.sanmer.sac.app.utils.NotificationUtils
 import dev.sanmer.sac.app.utils.OsUtils
-import dev.sanmer.sac.datastore.UserPreferencesExt
 import dev.sanmer.sac.datastore.isDarkMode
 import dev.sanmer.sac.repository.UserPreferencesRepository
 import dev.sanmer.sac.ui.providable.LocalUserPreferences
 import dev.sanmer.sac.ui.theme.AppTheme
-import dev.sanmer.sac.ui.utils.collectAsStateWithLifecycle
 import timber.log.Timber
 import javax.inject.Inject
 
@@ -35,36 +34,40 @@ class MainActivity : ComponentActivity() {
     @Inject
     lateinit var userPreferencesRepository: UserPreferencesRepository
 
-    private var isReady by mutableStateOf(false)
+    private var isLoading by mutableStateOf(true)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         val splashScreen = installSplashScreen()
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
 
-        splashScreen.setKeepOnScreenCondition { !isReady }
+        splashScreen.setKeepOnScreenCondition { isLoading }
 
         val metrics = WindowMetricsCalculator.getOrCreate().computeCurrentWindowMetrics(this)
         val windowBounds = metrics.bounds.toComposeRect()
 
         setContent {
-            val userPreferences by userPreferencesRepository.data
-                .collectAsStateWithLifecycle(
-                    initialValue = UserPreferencesExt.default(),
-                    onReady = { isReady = true }
-                )
-
             if (OsUtils.atLeastT) {
                 NotificationUtils.PermissionState()
             }
 
+            val userPreferences by userPreferencesRepository.data
+                .collectAsStateWithLifecycle(initialValue = null)
+
+            if (userPreferences == null) {
+                // Keep on splash screen
+                return@setContent
+            } else {
+                isLoading = false
+            }
+
             CompositionLocalProvider(
                 LocalWindowBounds provides windowBounds,
-                LocalUserPreferences provides userPreferences
+                LocalUserPreferences provides userPreferences!!
             ) {
                 AppTheme(
-                    darkMode = userPreferences.isDarkMode(),
-                    themeColor = userPreferences.themeColor
+                    darkMode = userPreferences!!.isDarkMode(),
+                    themeColor = userPreferences!!.themeColor
                 ) {
                     MainScreen()
                 }
