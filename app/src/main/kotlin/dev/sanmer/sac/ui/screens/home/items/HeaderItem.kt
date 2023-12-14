@@ -49,7 +49,7 @@ fun HeaderItem(
     OverviewCard(
         expanded = expanded,
         label = stringResource(id = R.string.home_header),
-        icon = R.drawable.clipboard_text,
+        icon = R.drawable.code_asterix,
         trailingIcon = {
             IconButton(onClick = { expanded = !expanded }) {
                 Icon(

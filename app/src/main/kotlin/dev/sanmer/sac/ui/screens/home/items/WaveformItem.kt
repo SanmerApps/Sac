@@ -27,7 +27,7 @@ fun WaveformItem(
     OverviewCard(
         expanded = true,
         label = stringResource(id = R.string.home_waveform),
-        icon = R.drawable.chart_line,
+        icon = R.drawable.activity,
         trailingIcon = {
             IconButton(
                 onClick = onMaximize
