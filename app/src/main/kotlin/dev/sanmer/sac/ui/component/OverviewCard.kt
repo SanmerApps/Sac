@@ -5,7 +5,6 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.Spring
 import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Arrangement
@@ -46,18 +45,16 @@ fun OverviewCard(
 ) {
     Column(
         modifier = Modifier
-            .animateContentSize(tween(300)),
+            .animateContentSize(spring(stiffness = Spring.StiffnessMediumLow)),
         horizontalAlignment = Alignment.Start,
         verticalArrangement = Arrangement.Top
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 18.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            leadingIcon?.let {
-                leadingIcon()
-                Spacer(modifier = Modifier.width(16.dp))
-            }
+            leadingIcon?.invoke()
 
             Text(
                 modifier = Modifier.weight(1f),
@@ -65,14 +62,11 @@ fun OverviewCard(
                 style = MaterialTheme.typography.titleMedium
             )
 
-            trailingIcon?.let {
-                Spacer(modifier = Modifier.width(16.dp))
-                trailingIcon()
-            }
+            trailingIcon?.invoke()
         }
 
         AnimatedVisibility(
-            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 16.dp),
+            modifier = Modifier.padding(start = 16.dp, end = 16.dp, bottom = 18.dp),
             visible = expanded,
             enter = fadeIn(spring(stiffness = Spring.StiffnessMedium)),
             exit = fadeOut(spring(stiffness = Spring.StiffnessMedium)),
