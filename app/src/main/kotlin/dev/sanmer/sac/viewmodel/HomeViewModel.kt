@@ -57,10 +57,6 @@ class HomeViewModel @Inject constructor(
 
     init {
         Timber.d("MainViewModel init")
-
-        context.tmpDir.apply {
-            if (!exists()) mkdirs()
-        }
     }
 
     private fun clear() {
