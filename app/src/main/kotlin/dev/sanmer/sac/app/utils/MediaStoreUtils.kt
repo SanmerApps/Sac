@@ -41,7 +41,7 @@ object MediaStoreUtils {
             uri
         }
 
-        val cr =  context.contentResolver
+        val cr = context.contentResolver
         return cr.openFileDescriptor(newUri, "r")?.use {
             Os.readlink("/proc/self/fd/${it.fd}")
         } ?: uri.toString()
@@ -51,7 +51,7 @@ object MediaStoreUtils {
         File(getAbsolutePathForUri(context, uri))
 
     fun copyTo(context: Context, uri: Uri, dir: File): File {
-        val cr =  context.contentResolver
+        val cr = context.contentResolver
         val tmp = dir.resolve(getDisplayNameForUri(context, uri))
 
         cr.openInputStream(uri)?.use { input ->
