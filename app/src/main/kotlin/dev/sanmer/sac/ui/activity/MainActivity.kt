@@ -20,8 +20,6 @@ import androidx.core.view.WindowInsetsControllerCompat
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.layout.WindowMetricsCalculator
 import dagger.hilt.android.AndroidEntryPoint
-import dev.sanmer.sac.app.utils.NotificationUtils
-import dev.sanmer.sac.app.utils.OsUtils
 import dev.sanmer.sac.datastore.isDarkMode
 import dev.sanmer.sac.repository.UserPreferencesRepository
 import dev.sanmer.sac.ui.providable.LocalUserPreferences
@@ -47,10 +45,6 @@ class MainActivity : ComponentActivity() {
         val windowBounds = metrics.bounds.toComposeRect()
 
         setContent {
-            if (OsUtils.atLeastT) {
-                NotificationUtils.PermissionState()
-            }
-
             val userPreferences by userPreferencesRepository.data
                 .collectAsStateWithLifecycle(initialValue = null)
 
