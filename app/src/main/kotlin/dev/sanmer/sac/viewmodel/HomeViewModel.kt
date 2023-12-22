@@ -74,7 +74,11 @@ class HomeViewModel @Inject constructor(
         val userPreferences = userPreferencesRepository.data.first()
         val endian = userPreferences.endian
 
-        val tmp = MediaStoreUtils.copyTo(context, uri, context.tmpDir)
+        val tmp = MediaStoreUtils.copyToDir(
+            context = context,
+            uri = uri,
+            dir = context.tmpDir
+        )
 
         filename = tmp.name
         clear()

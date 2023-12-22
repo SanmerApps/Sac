@@ -50,7 +50,7 @@ object MediaStoreUtils {
     fun getAbsoluteFileForUri(context: Context, uri: Uri) =
         File(getAbsolutePathForUri(context, uri))
 
-    fun copyTo(context: Context, uri: Uri, dir: File): File {
+    fun copyToDir(context: Context, uri: Uri, dir: File): File {
         val cr = context.contentResolver
         val tmp = dir.resolve(getDisplayNameForUri(context, uri))
 
