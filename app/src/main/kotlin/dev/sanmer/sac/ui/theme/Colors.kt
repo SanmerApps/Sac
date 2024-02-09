@@ -9,16 +9,20 @@ import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 import dev.sanmer.sac.app.utils.OsUtils
-import dev.sanmer.sac.ui.theme.color.BlueDarkColorScheme
-import dev.sanmer.sac.ui.theme.color.BlueLightColorScheme
-import dev.sanmer.sac.ui.theme.color.CyanDarkColorScheme
-import dev.sanmer.sac.ui.theme.color.CyanLightColorScheme
-import dev.sanmer.sac.ui.theme.color.DeepPurpleDarkColorScheme
-import dev.sanmer.sac.ui.theme.color.DeepPurpleLightColorScheme
-import dev.sanmer.sac.ui.theme.color.OrangeDarkColorScheme
-import dev.sanmer.sac.ui.theme.color.OrangeLightColorScheme
-import dev.sanmer.sac.ui.theme.color.SakuraDarkColorScheme
-import dev.sanmer.sac.ui.theme.color.SakuraLightColorScheme
+import dev.sanmer.sac.ui.theme.color.AlmondBlossomDarkScheme
+import dev.sanmer.sac.ui.theme.color.AlmondBlossomLightScheme
+import dev.sanmer.sac.ui.theme.color.JeufosseDarkScheme
+import dev.sanmer.sac.ui.theme.color.JeufosseLightScheme
+import dev.sanmer.sac.ui.theme.color.PlainAuversDarkScheme
+import dev.sanmer.sac.ui.theme.color.PlainAuversLightScheme
+import dev.sanmer.sac.ui.theme.color.PoppyFieldDarkScheme
+import dev.sanmer.sac.ui.theme.color.PoppyFieldLightScheme
+import dev.sanmer.sac.ui.theme.color.PourvilleDarkScheme
+import dev.sanmer.sac.ui.theme.color.PourvilleLightScheme
+import dev.sanmer.sac.ui.theme.color.SoleilLevantDarkScheme
+import dev.sanmer.sac.ui.theme.color.SoleilLevantLightScheme
+import dev.sanmer.sac.ui.theme.color.WildRosesDarkScheme
+import dev.sanmer.sac.ui.theme.color.WildRosesLightScheme
 
 sealed class Colors(
     val id: Int,
@@ -36,39 +40,51 @@ sealed class Colors(
             const val id = -1
         }
     }
-    data object Sakura : Colors(
+    data object Pourville : Colors(
         id = 0,
-        lightColorScheme = SakuraLightColorScheme,
-        darkColorScheme = SakuraDarkColorScheme
+        lightColorScheme = PourvilleLightScheme,
+        darkColorScheme = PourvilleDarkScheme
     )
-    data object DeepPurple : Colors(
+    data object SoleilLevant : Colors(
         id = 1,
-        lightColorScheme = DeepPurpleLightColorScheme,
-        darkColorScheme = DeepPurpleDarkColorScheme
+        lightColorScheme = SoleilLevantLightScheme,
+        darkColorScheme = SoleilLevantDarkScheme
     )
-    data object Blue: Colors(
+    data object Jeufosse: Colors(
         id = 2,
-        lightColorScheme = BlueLightColorScheme,
-        darkColorScheme = BlueDarkColorScheme
+        lightColorScheme = JeufosseLightScheme,
+        darkColorScheme = JeufosseDarkScheme
     )
-    data object Cyan: Colors(
+    data object PoppyField: Colors(
         id = 3,
-        lightColorScheme = CyanLightColorScheme,
-        darkColorScheme = CyanDarkColorScheme
+        lightColorScheme = PoppyFieldLightScheme,
+        darkColorScheme = PoppyFieldDarkScheme
     )
-    data object Orange: Colors(
+    data object AlmondBlossom: Colors(
         id = 4,
-        lightColorScheme = OrangeLightColorScheme,
-        darkColorScheme = OrangeDarkColorScheme
+        lightColorScheme = AlmondBlossomLightScheme,
+        darkColorScheme = AlmondBlossomDarkScheme
+    )
+    data object PlainAuvers: Colors(
+        id = 5,
+        lightColorScheme = PlainAuversLightScheme,
+        darkColorScheme = PlainAuversDarkScheme
+    )
+    data object WildRoses: Colors(
+        id = 6,
+        lightColorScheme = WildRosesLightScheme,
+        darkColorScheme = WildRosesDarkScheme
     )
 
     companion object {
         private val mColors get() = listOf(
-            Sakura,
-            DeepPurple,
-            Blue,
-            Cyan,
-            Orange
+            Pourville,
+            SoleilLevant,
+            Jeufosse,
+            PoppyField,
+            AlmondBlossom,
+            PlainAuvers,
+            WildRoses
         )
 
         fun getColorIds(): List<Int> {

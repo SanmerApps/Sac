@@ -14,7 +14,7 @@ data class UserPreferencesExt(
     companion object {
         fun default() = UserPreferencesExt(
             darkMode = DarkMode.FOLLOW_SYSTEM,
-            themeColor = if (OsUtils.atLeastS) Colors.Dynamic.id else Colors.Sakura.id,
+            themeColor = if (OsUtils.atLeastS) Colors.Dynamic.id else Colors.Pourville.id,
             endian = Endian.Little
         )
     }
