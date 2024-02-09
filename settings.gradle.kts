@@ -21,3 +21,4 @@ pluginManagement {
 
 rootProject.name = "Sac"
 include(":app")
+include(":native")
