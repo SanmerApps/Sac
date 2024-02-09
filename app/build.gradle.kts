@@ -5,8 +5,6 @@ plugins {
     alias(libs.plugins.pro.application)
     alias(libs.plugins.pro.compose)
     alias(libs.plugins.pro.hilt)
-    alias(libs.plugins.kotlin.parcelize)
-    alias(libs.plugins.ksp)
     alias(libs.plugins.protobuf)
 }
 
