@@ -1,8 +1,5 @@
 package dev.sanmer.sac.io
 
-import java.io.File
-
-@Suppress("SpellCheckingInspection")
 class SacHeader(
     var delta: Float,
     var depmin: Float,
@@ -79,12 +76,4 @@ class SacHeader(
     var knetwk: String,
     var kdatrd: String,
     var kinst: String
-) {
-    companion object {
-        fun read(file: File, endian: Endian): SacHeader {
-            Sac.readHeader(file, endian).use {
-                return it.header
-            }
-        }
-    }
-}
+)

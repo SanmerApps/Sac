@@ -18,10 +18,12 @@ class Sac(
         get() = getSecond(ptr)
         set(value) = setSecond(ptr, value)
 
-    fun writeHeader() = writeHeader(ptr)
-    fun setEndian(endian: Endian) = setEndian(ptr, endian.ordinal)
-    fun write() = write(ptr)
-    fun writeTo(file: File) = writeTo(ptr, file.absolutePath)
+    fun write(file: File, endian: Endian) = write(
+        ptr = ptr,
+        path = file.absolutePath,
+        endian = endian.ordinal
+    )
+
     override fun close() = drop(ptr)
 
     companion object {
@@ -30,22 +32,13 @@ class Sac(
         }
 
         @JvmStatic
-        private external fun readHeader(path: String, endian: Int): Long
-
-        @JvmStatic
         private external fun read(path: String, endian: Int): Long
 
         @JvmStatic
         private external fun empty(path: String, endian: Int): Long
 
         @JvmStatic
-        private external fun writeHeader(ptr: Long)
-
-        @JvmStatic
-        private external fun write(ptr: Long)
-
-        @JvmStatic
-        private external fun writeTo(ptr: Long, path: String)
+        private external fun write(ptr: Long, path: String, endian: Int)
 
         @JvmStatic
         private external fun getHeader(ptr: Long): SacHeader
@@ -66,19 +59,7 @@ class Sac(
         private external fun setSecond(ptr: Long, y: FloatArray)
 
         @JvmStatic
-        private external fun setEndian(ptr: Long, endian: Int)
-
-        @JvmStatic
         private external fun drop(ptr: Long)
-
-        fun readHeader(file: File, endian: Endian): Sac {
-            val ptr = readHeader(
-                path = file.absolutePath,
-                endian = endian.ordinal
-            )
-
-            return Sac(ptr)
-        }
 
         fun read(file: File, endian: Endian): Sac {
             val ptr = read(
