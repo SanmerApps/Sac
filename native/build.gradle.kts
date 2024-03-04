@@ -27,7 +27,7 @@ val compileRust = task("compileRust") {
     }
 
     val libs = fileTree(targetDir) {
-        include("*/*/*.so")
+        include("*/*/libsac_jni.so")
     }.files
 
     libs.forEach {
