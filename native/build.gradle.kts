@@ -14,6 +14,8 @@ android {
 
 @Suppress("UnstableApiUsage")
 val compileRust = task("compileRust") {
+    val libname = "sac-jni"
+
     val scrDir = file("jni")
     val targetDir = scrDir.resolve("target")
 
@@ -27,7 +29,7 @@ val compileRust = task("compileRust") {
     }
 
     val libs = fileTree(targetDir) {
-        include("*/*/libsac_jni.so")
+        include("*/*/libjni.so")
     }.files
 
     libs.forEach {
@@ -41,6 +43,7 @@ val compileRust = task("compileRust") {
         val outDir = File("src/main/libs", target)
         copy {
             from(it)
+            rename("jni", libname)
             into(outDir)
         }
     }
