@@ -9,5 +9,5 @@ sac = { git = "https://github.com/SanmerDev/libsac.git" }
 jni = "0.21.1"
 
 [lib]
-name = "sac_jni"
+name = "jni"
 crate_type = ["cdylib"]
