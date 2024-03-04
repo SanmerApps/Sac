@@ -12,22 +12,42 @@ android {
     }
 }
 
-val compileRust = task<Exec>("compileRust") {
-    commandLine(listOf("cargo", "build", "--all-targets", "--release"))
-    workingDir(file("jni"))
+@Suppress("UnstableApiUsage")
+val compileRust = task("compileRust") {
+    val scrDir = file("jni")
+    val targetDir = scrDir.resolve("target")
+
+    val output = providers.exec {
+        commandLine(listOf("cargo", "build", "--release", "--verbose"))
+        workingDir(scrDir)
+    }.standardError.asBytes.get()
+
+    targetDir.resolve("cargo.log").apply {
+        writeBytes(output)
+    }
+
+    val libs = fileTree(targetDir) {
+        include("*/*/*.so")
+    }.files
+
+    libs.forEach {
+        val path = it.canonicalPath
+        val target = when {
+            path.contains("aarch64-linux-android") -> "arm64-v8a"
+            path.contains("x86_64-linux-android") -> "x86_64"
+            else -> ""
+        }
+
+        val outDir = File("src/main/libs", target)
+        copy {
+            from(it)
+            into(outDir)
+        }
+    }
 }
 
-task<Copy>("mergeReleaseJniLib") {
-    dependsOn(compileRust)
-    destinationDir = file("src/main/libs")
-
-    listOf(
-        "aarch64-linux-android" to "arm64-v8a",
-        "x86_64-linux-android" to "x86_64"
-    ).forEach { (raw, target) ->
-        from(file("jni/target/${raw}/release")) {
-            include("libsac_jni.so")
-            rename("libsac_jni.so", "${target}/libsac-jni.so")
-        }
+tasks.whenTaskAdded {
+    if (name == "javaPreCompileDebug" || name == "javaPreCompileRelease") {
+        dependsOn(compileRust)
     }
 }
