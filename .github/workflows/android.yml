@@ -61,9 +61,6 @@ jobs:
         with:
           targets: aarch64-linux-android,x86_64-linux-android
 
-      - name: Build JNI lib
-        run: ./gradlew mergeReleaseJniLib
-
       - name: Build with Gradle
         run: ./gradlew assembleRelease
 
