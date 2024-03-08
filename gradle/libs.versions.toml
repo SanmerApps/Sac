@@ -23,7 +23,7 @@ ksp = "1.9.22-1.0.17"
 protobuf = "3.25.3"
 protobufPlugin = "0.9.4"
 skikoAndroid = "0.7.89"
-letsPlot = "4.2.0"
+letsPlot = "4.3.0"
 letsPlotKotlin = "4.6.0"
 letsPlotCompose = "1.0.2"
 
