@@ -5,7 +5,7 @@ license = "Apache-2.0"
 edition = "2021"
 
 [dependencies]
-sac = { git = "https://github.com/SanmerDev/libsac.git" }
+sac = { git = "https://github.com/SanmerDev/libsac.git", rev = "21ddebd8f1e7e78f21d84b18ec9a5d1a441059c0" }
 jni = "0.21.1"
 
 [lib]

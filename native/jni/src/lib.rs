@@ -6,6 +6,7 @@ use jni::sys::{jfloat, jint, jlong, jsize};
 use jni::{errors, JNIEnv};
 
 use sac::{Endian, Sac, SacHeader};
+use sac::error;
 
 pub trait JNIEnvExt {
     fn get_float_field(&mut self, obj: &JObject, name: &str) -> errors::Result<jfloat>;
@@ -165,10 +166,10 @@ pub trait JNI<'local> {
     fn get_path(&mut self, path: &JString) -> String;
     fn read<F>(&mut self, read: F) -> jlong
     where
-        F: FnOnce() -> Option<Sac>;
+        F: FnOnce() -> error::Result<Sac>;
     fn write<F>(&mut self, write: F)
     where
-        F: FnOnce() -> Option<()>;
+        F: FnOnce() -> error::Result<()>;
     fn new_floatarray(&mut self, length: jsize) -> JFloatArray<'local>;
     fn set_floatarray(&mut self, array: &JFloatArray, buf: &[jfloat]);
     fn get_floatarray(&mut self, array: &JFloatArray, buf: &mut [jfloat]);
@@ -206,12 +207,12 @@ impl<'a> JNI<'a> for JNIEnv<'a> {
     #[inline]
     fn read<F>(&mut self, read: F) -> jlong
     where
-        F: FnOnce() -> Option<Sac>,
+        F: FnOnce() -> error::Result<Sac>,
     {
         match read() {
-            Some(v) => Box::into_raw(Box::new(v)) as jlong,
-            None => {
-                self.throw_new("java/io/IOException", "")
+            Ok(v) => Box::into_raw(Box::new(v)) as jlong,
+            Err(e) => {
+                self.throw_new("java/io/IOException", e.to_string())
                     .unwrap_or_else(|e| {
                         eprintln!("{e}");
                     });
@@ -224,12 +225,12 @@ impl<'a> JNI<'a> for JNIEnv<'a> {
     #[inline]
     fn write<F>(&mut self, write: F)
     where
-        F: FnOnce() -> Option<()>,
+        F: FnOnce() -> error::Result<()>,
     {
         match write() {
-            Some(_) => {}
-            None => {
-                self.throw_new("java/io/IOException", "")
+            Ok(_) => {}
+            Err(e) => {
+                self.throw_new("java/io/IOException", e.to_string())
                     .unwrap_or_else(|e| {
                         eprintln!("{e}");
                     });
@@ -463,7 +464,7 @@ pub extern "system" fn Java_dev_sanmer_sac_io_Sac_empty(
     _env: JNIEnv,
     _class: JClass,
 ) -> jlong {
-    let sac = Sac::empty();
+    let sac = Sac::new();
     Box::into_raw(Box::new(sac)) as jlong
 }
 
