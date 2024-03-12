@@ -48,20 +48,20 @@ class MainActivity : ComponentActivity() {
             val userPreferences by userPreferencesRepository.data
                 .collectAsStateWithLifecycle(initialValue = null)
 
-            if (userPreferences == null) {
-                // Keep on splash screen
+            val preferences = if (userPreferences == null) {
                 return@setContent
             } else {
                 isLoading = false
+                checkNotNull(userPreferences)
             }
 
             CompositionLocalProvider(
                 LocalWindowBounds provides windowBounds,
-                LocalUserPreferences provides userPreferences!!
+                LocalUserPreferences provides preferences
             ) {
                 AppTheme(
-                    darkMode = userPreferences!!.isDarkMode(),
-                    themeColor = userPreferences!!.themeColor
+                    darkMode = preferences.isDarkMode(),
+                    themeColor = preferences.themeColor
                 ) {
                     MainScreen()
                 }
@@ -84,8 +84,7 @@ class MainActivity : ComponentActivity() {
 
         fun Activity.hideSystemBars() {
             Timber.d("hideSystemBars")
-            val windowInsetsController =
-                WindowCompat.getInsetsController(window, window.decorView)
+            val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
 
             windowInsetsController.systemBarsBehavior =
                 WindowInsetsControllerCompat.BEHAVIOR_SHOW_TRANSIENT_BARS_BY_SWIPE
@@ -95,8 +94,7 @@ class MainActivity : ComponentActivity() {
 
         fun Activity.showSystemBars() {
             Timber.d("showSystemBars")
-            val windowInsetsController =
-                WindowCompat.getInsetsController(window, window.decorView)
+            val windowInsetsController = WindowCompat.getInsetsController(window, window.decorView)
 
             windowInsetsController.show(WindowInsetsCompat.Type.systemBars())
         }
