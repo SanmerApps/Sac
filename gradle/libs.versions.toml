@@ -25,7 +25,7 @@ protobufPlugin = "0.9.4"
 skikoAndroid = "0.7.89"
 letsPlot = "4.3.0"
 letsPlotKotlin = "4.7.0"
-letsPlotCompose = "1.0.2"
+letsPlotCompose = "1.0.3"
 
 [libraries]
 accompanist-permissions = { group = "com.google.accompanist", name = "accompanist-permissions", version.ref = "accompanist" }
