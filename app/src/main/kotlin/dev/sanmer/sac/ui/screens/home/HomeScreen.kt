@@ -14,7 +14,6 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
@@ -37,7 +36,6 @@ import dev.sanmer.sac.ui.activity.MainActivity.Companion.hideSystemBars
 import dev.sanmer.sac.ui.activity.MainActivity.Companion.setOrientationSensorLandscape
 import dev.sanmer.sac.ui.activity.MainActivity.Companion.setOrientationUnspecified
 import dev.sanmer.sac.ui.activity.MainActivity.Companion.showSystemBars
-import dev.sanmer.sac.ui.component.Logo
 import dev.sanmer.sac.ui.navigation.navigateToSettings
 import dev.sanmer.sac.ui.providable.LocalUserPreferences
 import dev.sanmer.sac.ui.screens.home.items.ErrorItem
@@ -169,19 +167,6 @@ private fun TopBar(
     scrollBehavior: TopAppBarScrollBehavior
 ) = TopAppBar(
     title = { Text(text = stringResource(id = R.string.app_name)) },
-    navigationIcon = {
-        Box(
-            modifier = Modifier.padding(horizontal = 18.dp)
-        ) {
-            Logo(
-                icon = R.drawable.launcher_outline,
-                modifier = Modifier.size(32.dp),
-                contentColor = MaterialTheme.colorScheme.onPrimary,
-                containerColor = MaterialTheme.colorScheme.primary,
-                fraction = 0.65f
-            )
-        }
-    },
     actions = {
         IconButton(
             onClick = { navController.navigateToSettings() }
