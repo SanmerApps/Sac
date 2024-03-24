@@ -31,11 +31,11 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import dev.sanmer.sac.R
+import dev.sanmer.sac.compat.ActivityCompat.hideSystemBars
+import dev.sanmer.sac.compat.ActivityCompat.setOrientationSensorLandscape
+import dev.sanmer.sac.compat.ActivityCompat.setOrientationUnspecified
+import dev.sanmer.sac.compat.ActivityCompat.showSystemBars
 import dev.sanmer.sac.ui.activity.MainActivity.Companion.LocalWindowBounds
-import dev.sanmer.sac.ui.activity.MainActivity.Companion.hideSystemBars
-import dev.sanmer.sac.ui.activity.MainActivity.Companion.setOrientationSensorLandscape
-import dev.sanmer.sac.ui.activity.MainActivity.Companion.setOrientationUnspecified
-import dev.sanmer.sac.ui.activity.MainActivity.Companion.showSystemBars
 import dev.sanmer.sac.ui.navigation.navigateToSettings
 import dev.sanmer.sac.ui.providable.LocalUserPreferences
 import dev.sanmer.sac.ui.screens.home.items.ErrorItem

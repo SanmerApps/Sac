@@ -2,7 +2,7 @@ package dev.sanmer.sac.datastore
 
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.runtime.Composable
-import dev.sanmer.sac.app.utils.OsUtils
+import dev.sanmer.sac.compat.BuildCompat
 import dev.sanmer.sac.io.Endian
 import dev.sanmer.sac.ui.theme.Colors
 
@@ -14,7 +14,7 @@ data class UserPreferencesExt(
     companion object {
         fun default() = UserPreferencesExt(
             darkMode = DarkMode.FOLLOW_SYSTEM,
-            themeColor = if (OsUtils.atLeastS) Colors.Dynamic.id else Colors.Pourville.id,
+            themeColor = if (BuildCompat.atLeastS) Colors.Dynamic.id else Colors.Pourville.id,
             endian = Endian.Little
         )
     }
