@@ -56,7 +56,7 @@ class HomeViewModel @Inject constructor(
     val isFigureReady get() = figureOrNull != null && !isFailed
 
     init {
-        Timber.d("MainViewModel init")
+        Timber.d("HomeViewModel init")
     }
 
     private fun clear() {
