@@ -44,7 +44,7 @@ import dev.sanmer.sac.ui.component.OverviewCard
 @Composable
 fun FileItem(
     filename: String,
-    loadSacFile: (Uri) -> Unit,
+    loadSacFile: (Uri, Endian) -> Unit,
     endian: Endian,
     onEndianChange: (Endian) -> Unit
 ) = OverviewCard(
@@ -62,7 +62,7 @@ fun FileItem(
     val launcher = rememberLauncherForActivityResult(ActivityResultContracts.GetContent()) { uri ->
         if (uri == null) return@rememberLauncherForActivityResult
 
-        loadSacFile(uri)
+        loadSacFile(uri, endian)
     }
 
     LaunchedEffect(interactionSource) {

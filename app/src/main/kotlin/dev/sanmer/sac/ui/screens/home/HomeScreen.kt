@@ -35,6 +35,7 @@ import dev.sanmer.sac.compat.ActivityCompat.hideSystemBars
 import dev.sanmer.sac.compat.ActivityCompat.setOrientationSensorLandscape
 import dev.sanmer.sac.compat.ActivityCompat.setOrientationUnspecified
 import dev.sanmer.sac.compat.ActivityCompat.showSystemBars
+import dev.sanmer.sac.ui.activity.MainActivity.Companion.LocalFileUri
 import dev.sanmer.sac.ui.activity.MainActivity.Companion.LocalWindowBounds
 import dev.sanmer.sac.ui.navigation.navigateToSettings
 import dev.sanmer.sac.ui.providable.LocalUserPreferences
@@ -51,12 +52,19 @@ fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel()
 ) {
+    val userPreferences = LocalUserPreferences.current
     val context = LocalContext.current
     val windowBounds = LocalWindowBounds.current
-    val isHorizontal = windowBounds.let { it.width > it.height }
-    val activity = context as Activity
+    val fileUri = LocalFileUri.current
+
+    LaunchedEffect(fileUri) {
+        viewModel.loadSacFile(fileUri, userPreferences.endian)
+    }
 
     LaunchedEffect(viewModel.isFullScreen) {
+        val isHorizontal = windowBounds.let { it.width > it.height }
+        val activity = context as Activity
+
         if (viewModel.isFullScreen) {
             if (!isHorizontal) activity.setOrientationSensorLandscape()
             activity.hideSystemBars()

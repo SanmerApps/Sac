@@ -1,4 +1,4 @@
-package dev.sanmer.sac.app.utils
+package dev.sanmer.sac.compat
 
 import android.content.Context
 import android.net.Uri
@@ -8,8 +8,8 @@ import androidx.core.net.toFile
 import androidx.documentfile.provider.DocumentFile
 import java.io.File
 
-object MediaStoreUtils {
-    fun getDisplayNameForUri(context: Context, uri: Uri): String {
+object MediaStoreCompat {
+    fun Context.getDisplayNameForUri(uri: Uri): String {
         if (uri.scheme == "file") {
             return uri.toFile().name
         }
@@ -17,8 +17,7 @@ object MediaStoreUtils {
         require(uri.scheme == "content") { "Uri lacks 'content' scheme: $uri" }
 
         val projection = arrayOf(OpenableColumns.DISPLAY_NAME)
-        val cr = context.contentResolver
-        cr.query(uri, projection, null, null, null)?.use { cursor ->
+        contentResolver.query(uri, projection, null, null, null)?.use { cursor ->
             val displayNameColumn = cursor.getColumnIndexOrThrow(OpenableColumns.DISPLAY_NAME)
             if (cursor.moveToFirst()) {
                 return cursor.getString(displayNameColumn)
@@ -28,33 +27,29 @@ object MediaStoreUtils {
         return uri.toString()
     }
 
-    fun getAbsolutePathForUri(context: Context, uri: Uri): String {
+    fun Context.getPathForUri(uri: Uri): String {
         if (uri.scheme == "file") {
-            return uri.toFile().absolutePath
+            return uri.toFile().path
         }
 
         require(uri.scheme == "content") { "Uri lacks 'content' scheme: $uri" }
 
-        val newUri = try {
-            checkNotNull(DocumentFile.fromTreeUri(context, uri)?.uri)
-        } catch (e: Exception) {
+        val real = if (DocumentFile.isDocumentUri(this, uri)) {
+            DocumentFile.fromTreeUri(this, uri)?.uri ?: uri
+        } else {
             uri
         }
 
-        val cr = context.contentResolver
-        return cr.openFileDescriptor(newUri, "r")?.use {
+        return contentResolver.openFileDescriptor(real, "r")?.use {
             Os.readlink("/proc/self/fd/${it.fd}")
         } ?: uri.toString()
     }
 
-    fun getAbsoluteFileForUri(context: Context, uri: Uri) =
-        File(getAbsolutePathForUri(context, uri))
+    fun Context.getFileForUri(uri: Uri) = File(getPathForUri(uri))
 
-    fun copyTo(context: Context, uri: Uri, dir: File): File {
-        val cr = context.contentResolver
-        val tmp = dir.resolve(getDisplayNameForUri(context, uri))
-
-        cr.openInputStream(uri)?.use { input ->
+    fun Context.copyToDir(uri: Uri, dir: File): File {
+        val tmp = dir.resolve(getDisplayNameForUri(uri))
+        contentResolver.openInputStream(uri)?.use { input ->
             tmp.outputStream().use { output ->
                 input.copyTo(output)
             }

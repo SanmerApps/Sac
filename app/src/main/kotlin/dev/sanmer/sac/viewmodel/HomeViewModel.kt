@@ -9,7 +9,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.sanmer.sac.app.utils.MediaStoreUtils
+import dev.sanmer.sac.compat.MediaStoreCompat.copyToDir
 import dev.sanmer.sac.io.Endian
 import dev.sanmer.sac.io.Sac
 import dev.sanmer.sac.io.SacFileType
@@ -17,7 +17,8 @@ import dev.sanmer.sac.io.SacHeader
 import dev.sanmer.sac.repository.UserPreferencesRepository
 import dev.sanmer.sac.utils.extensions.tmpDir
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 import org.jetbrains.letsPlot.Figure
 import org.jetbrains.letsPlot.geom.geomLine
@@ -35,6 +36,7 @@ class HomeViewModel @Inject constructor(
     private val context: Context by lazy { getApplication() }
     var isFullScreen by mutableStateOf(false)
 
+    private var dataKey = Uri.EMPTY to Endian.Little
     var filename by mutableStateOf("")
         private set
 
@@ -57,9 +59,10 @@ class HomeViewModel @Inject constructor(
 
     init {
         Timber.d("HomeViewModel init")
+        reloadData()
     }
 
-    private fun clear() {
+    private fun clearData() {
         isFailed = false
         error = ""
 
@@ -70,19 +73,43 @@ class HomeViewModel @Inject constructor(
         figureOrNull = null
     }
 
-    fun loadSacFile(uri: Uri) = viewModelScope.launch(Dispatchers.IO) {
-        val userPreferences = userPreferencesRepository.data.first()
-        val endian = userPreferences.endian
+    private fun createFigure(): Figure {
+        val data = mapOf("x" to x, "y" to y)
 
-        val tmp = MediaStoreUtils.copyTo(context, uri, context.tmpDir)
+        return letsPlot(data) + geomLine {
+            x = "x"
+            y = "y"
+        } + theme(
+            axis = elementBlank()
+        )
+    }
 
-        filename = tmp.name
-        clear()
+    private fun reloadData() {
+        userPreferencesRepository.data
+            .onEach {
+                val uri = dataKey.first
+                loadSacFile(uri, it.endian)
+            }
+            .launchIn(viewModelScope)
+    }
+
+    fun loadSacFile(uri: Uri, endian: Endian) = viewModelScope.launch(Dispatchers.IO) {
+        val key = uri to endian
+        if (dataKey == key || uri == Uri.EMPTY) {
+            return@launch
+        } else {
+            dataKey = key
+            clearData()
+        }
+
+        val tmp = context.copyToDir(uri, context.tmpDir)
+            .apply {
+                filename = name
+            }
 
         runCatching {
-            Sac.read(file = tmp, endian = endian).use { sac ->
+            Sac.read(tmp, endian).use { sac ->
                 headerOrNull = sac.header
-                y = sac.first
 
                 val fileType = SacFileType.valueBy(header.iftype)
                 if (fileType == SacFileType.Time && header.leven) {
@@ -103,17 +130,6 @@ class HomeViewModel @Inject constructor(
         }
 
         tmp.delete()
-    }
-
-    private fun createFigure(): Figure {
-        val data = mapOf("x" to x, "y" to y)
-
-        return letsPlot(data) + geomLine {
-            x = "x"
-            y = "y"
-        } + theme(
-            axis = elementBlank()
-        )
     }
 
     fun setEndian(value: Endian) =
