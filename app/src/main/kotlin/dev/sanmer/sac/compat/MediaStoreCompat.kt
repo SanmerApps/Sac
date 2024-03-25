@@ -2,6 +2,7 @@ package dev.sanmer.sac.compat
 
 import android.content.Context
 import android.net.Uri
+import android.provider.DocumentsContract
 import android.provider.OpenableColumns
 import android.system.Os
 import androidx.core.net.toFile
@@ -34,7 +35,7 @@ object MediaStoreCompat {
 
         require(uri.scheme == "content") { "Uri lacks 'content' scheme: $uri" }
 
-        val real = if (DocumentFile.isDocumentUri(this, uri)) {
+        val real = if (DocumentsContract.isTreeUri(uri)) {
             DocumentFile.fromTreeUri(this, uri)?.uri ?: uri
         } else {
             uri
@@ -49,7 +50,7 @@ object MediaStoreCompat {
 
     fun Context.copyToDir(uri: Uri, dir: File): File {
         val tmp = dir.resolve(getDisplayNameForUri(uri))
-        contentResolver.openInputStream(uri)?.use { input ->
+        contentResolver.openInputStream(uri)?.buffered()?.use { input ->
             tmp.outputStream().use { output ->
                 input.copyTo(output)
             }
