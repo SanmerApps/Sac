@@ -18,7 +18,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import dev.sanmer.sac.R
-import dev.sanmer.sac.datastore.isDarkMode
 import dev.sanmer.sac.ui.component.NavigateUpTopBar
 import dev.sanmer.sac.ui.navigation.graphs.SettingsScreen
 import dev.sanmer.sac.ui.providable.LocalUserPreferences

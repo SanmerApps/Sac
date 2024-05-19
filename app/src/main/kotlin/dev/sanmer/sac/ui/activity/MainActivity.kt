@@ -17,7 +17,6 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.window.layout.WindowMetricsCalculator
 import dagger.hilt.android.AndroidEntryPoint
-import dev.sanmer.sac.datastore.isDarkMode
 import dev.sanmer.sac.repository.UserPreferencesRepository
 import dev.sanmer.sac.ui.providable.LocalUserPreferences
 import dev.sanmer.sac.ui.theme.AppTheme
