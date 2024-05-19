@@ -132,6 +132,9 @@ class HomeViewModel @Inject constructor(
         tmp.delete()
     }
 
-    fun setEndian(value: Endian) =
-        userPreferencesRepository.setEndian(value)
+    fun setEndian(value: Endian) {
+        viewModelScope.launch {
+            userPreferencesRepository.setEndian(value)
+        }
+    }
 }

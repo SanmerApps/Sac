@@ -2,29 +2,19 @@ package dev.sanmer.sac.repository
 
 import dev.sanmer.sac.datastore.DarkMode
 import dev.sanmer.sac.datastore.UserPreferencesDataSource
-import dev.sanmer.sac.di.ApplicationScope
 import dev.sanmer.sac.io.Endian
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class UserPreferencesRepository @Inject constructor(
-    private val userPreferencesDataSource: UserPreferencesDataSource,
-    @ApplicationScope private val applicationScope: CoroutineScope
+    private val userPreferencesDataSource: UserPreferencesDataSource
 ) {
     val data get() = userPreferencesDataSource.data
 
-    fun setDarkTheme(value: DarkMode) = applicationScope.launch {
-        userPreferencesDataSource.setDarkTheme(value)
-    }
+    suspend fun setDarkTheme(value: DarkMode) = userPreferencesDataSource.setDarkTheme(value)
 
-    fun setThemeColor(value: Int) = applicationScope.launch {
-        userPreferencesDataSource.setThemeColor(value)
-    }
+    suspend fun setThemeColor(value: Int) = userPreferencesDataSource.setThemeColor(value)
 
-    fun setEndian(value: Endian) = applicationScope.launch {
-        userPreferencesDataSource.setEndian(value.name)
-    }
+    suspend fun setEndian(value: Endian) = userPreferencesDataSource.setEndian(value.name)
 }
