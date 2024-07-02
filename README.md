@@ -1,5 +1,5 @@
 # Sac
-[![release](https://img.shields.io/github/v/release/SanmerApps/Sac?label=release&color=red)](https://github.com/SanmerApps/Sac/releases) [![download](https://shields.io/github/downloads/SanmerApps/Sac/total?label=download)](https://github.com/SanmerApps/Sac/releases/latest) [![translated](https://weblate.sanmer.app/widget/sac/svg-badge.svg)](https://weblate.sanmer.app/engage/sac/)
+[![release](https://img.shields.io/github/v/release/SanmerApps/Sac?label=release&color=red)](https://github.com/SanmerApps/Sac/releases) [![download](https://shields.io/github/downloads/SanmerApps/Sac/total?label=download)](https://github.com/SanmerApps/Sac/releases/latest)
 
 Sac is an Android app to view SAC data.
 
